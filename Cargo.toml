@@ -4,3 +4,16 @@ version = "0.1.0"
 authors = ["tpywao <tpywao@gmail.com>"]
 
 [dependencies]
+iron = ">=0.5, <0.7"
+mount = ">=0.3, <0.5"
+staticfile = "*"
+
+serde = "*"
+serde_json = "*"
+serde_derive = "*"
+
+ws = "*"
+url = "1.5"
+
+hmac = "0.5"
+sha2 = "0.7"
