@@ -1,27 +1,26 @@
 extern crate iron;
 extern crate staticfile;
 extern crate mount;
-mod http_server;
-use http_server::http_server;
-
-extern crate serde;
-extern crate serde_json;
-#[macro_use]
-extern crate serde_derive;
-mod json;
-
-extern crate sha2;
-extern crate hmac;
-mod auth;
-
 extern crate ws;
 extern crate url;
+extern crate sha2;
+extern crate hmac;
+extern crate serde;
+extern crate serde_json;
+#[macro_use] extern crate serde_derive;
+
+mod config;
+mod http_server;
 mod websocket_client;
+mod file_io;
+mod auth;
+mod json;
+
+use http_server::http_server;
 use websocket_client::websocket_client;
 
 use std::thread;
 
-mod config;
 use config::{
     LOCAL_HTTP_NETLOC,
     LOCAL_WS_URL
@@ -29,7 +28,6 @@ use config::{
     // MERGED_STREAM_URL
 };
 
-mod file_io;
 
 
 fn main() {

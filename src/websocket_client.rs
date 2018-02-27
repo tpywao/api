@@ -13,13 +13,13 @@ use super::config::{
     X_NONCE,
     X_SIGNATURE
 };
+use super::file_io::write_file;
 use super::auth::generate_x_signature;
 use super::json::Merged;
 use super::json::{
     to_string,
     from_str
 };
-use super::file_io::write_file;
 
 
 struct Client;
