@@ -1,6 +1,4 @@
 extern crate iron;
-extern crate staticfile;
-extern crate mount;
 extern crate ws;
 extern crate url;
 extern crate sha2;
@@ -27,8 +25,6 @@ use config::{
     // ORIGIN_STREAM_URL,
     // MERGED_STREAM_URL
 };
-
-
 
 fn main() {
     let server = thread::spawn(move || {
