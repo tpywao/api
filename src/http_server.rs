@@ -52,7 +52,6 @@ pub fn http_server(url: &str) {
     });
 
     router.add_route("merged", |_: &mut Request| {
-        println!("here?");
         let Merged(json) = get_merged();
         Ok(Response::with((
             content_type_json(),
