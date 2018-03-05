@@ -40,7 +40,7 @@ fn content_type_json() -> Mime {
 }
 
 fn get_merged() -> Merged {
-    let data = read_file(MERGED_FILE_PATH).unwrap();
+    let data = read_file(&MERGED_FILE_PATH).unwrap();
     from_str(&data).unwrap()
 }
 

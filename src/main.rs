@@ -6,6 +6,7 @@ extern crate hmac;
 extern crate serde;
 extern crate serde_json;
 #[macro_use] extern crate serde_derive;
+#[macro_use] extern crate lazy_static;
 
 mod config;
 mod http_server;
@@ -28,11 +29,11 @@ use config::{
 
 fn main() {
     let server = thread::spawn(move || {
-        http_server(LOCAL_HTTP_NETLOC);
+        http_server(&LOCAL_HTTP_NETLOC);
     });
 
     let ws_merged = thread::spawn(move || {
-        websocket_client(LOCAL_WS_URL);
+        websocket_client(&LOCAL_WS_URL);
     });
 
     let _ = server.join();

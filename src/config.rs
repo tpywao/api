@@ -1,9 +1,10 @@
-pub const ORIGIN_FILE_PATH: &str = "target/origin.json";
-pub const MERGED_FILE_PATH: &str = "target/merged.json";
-// pub const ORIGIN_STREAM_URL: &str = "wss://streaming.example.debit.co.jp/?limit=2&stream=origin";
-// pub const MERGED_STREAM_URL: &str = "wss://streaming.example.debit.co.jp/?limit=2&stream=merged";
-pub const LOCAL_WS_URL: &str = "ws://127.0.0.1:3012";
-pub const LOCAL_HTTP_NETLOC: &str = "127.0.0.1:8080";
-pub const X_ACCESS_ID: &str = "X-Access-Id";
-pub const X_SIGNATURE: &str = "X-Signature";
-pub const X_NONCE: &str = "X-Nonce";
+use std::env::var;
+
+lazy_static! {
+    pub static ref ORIGIN_FILE_PATH: String = var("ORIGIN_FILE_PATH").unwrap();
+    pub static ref MERGED_FILE_PATH: String = var("MERGED_FILE_PATH").unwrap();
+    // pub static ref ORIGIN_STREAM_URL: String = var("ORIGIN_STREAM_URL").unwrap();
+    // pub static ref MERGED_STREAM_URL: String = var("MERGED_STREAM_URL").unwrap();
+    pub static ref LOCAL_WS_URL: String = var("LOCAL_WS_URL").unwrap();
+    pub static ref LOCAL_HTTP_NETLOC: String = var("LOCAL_HTTP_NETLOC").unwrap();
+}

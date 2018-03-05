@@ -8,10 +8,7 @@ use ws::{
 use url::Url;
 
 use super::config::{
-    MERGED_FILE_PATH,
-    X_ACCESS_ID,
-    X_NONCE,
-    X_SIGNATURE
+    MERGED_FILE_PATH
 };
 use super::file_io::write_file;
 use super::auth::generate_x_signature;
@@ -27,7 +24,7 @@ impl Handler for Client {
     fn on_message(&mut self, msg: Message) -> Result<()> {
         let text = &msg.as_text()?;
         if let Ok(Merged(json)) = from_str(text) {
-            write_file(MERGED_FILE_PATH, &to_string(&json).unwrap())?;
+            write_file(&MERGED_FILE_PATH, &to_string(&json).unwrap())?;
         }
         Ok(())
     }
@@ -41,9 +38,9 @@ impl Handler for Client {
         let x_signature = x_signature + &format!("{:x}", x_nonce);
         {
             let headers = (&mut req).headers_mut();
-            &headers.push((X_ACCESS_ID.to_string(), b"12".to_vec()));
-            &headers.push((X_NONCE.to_string(), x_nonce.to_string().as_bytes().to_vec()));
-            &headers.push((X_SIGNATURE.to_string(), x_signature.as_bytes().to_vec()));
+            &headers.push(("X-Access-Id".to_string(), b"12".to_vec()));
+            &headers.push(("X-Nonce".to_string(), x_nonce.to_string().as_bytes().to_vec()));
+            &headers.push(("X-Signature".to_string(), x_signature.as_bytes().to_vec()));
         }
 
         Ok(req)
