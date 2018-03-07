@@ -21,7 +21,7 @@ impl Router {
     }
 
     fn add_route<H>(&mut self, path: &str, handler: H) where H: Handler {
-        self.routes.insert(path.to_string(), Box::new(handler));
+        self.routes.insert(path.to_owned(), Box::new(handler));
     }
 }
 
@@ -52,7 +52,7 @@ pub fn http_server(url: String, origin_file_path: String, merged_file_path: Stri
     let mut router = Router::new();
 
     router.add_route("", |_: &mut Request| {
-        Ok(Response::with((status::Ok, "access to /merged")))
+        Ok(Response::with((status::Ok, "access to /origin or /merged")))
     });
 
     router.add_route("origin", move |_: &mut Request| {

@@ -29,11 +29,23 @@ fn main() {
     });
 
     let ws_origin = thread::spawn(move || {
-        websocket_client(Stream::Origin, websocket_client_config::get_origin_url(), file_config::get_origin_path());
+        websocket_client(
+            Stream::Origin,
+            websocket_client_config::get_origin_url(),
+            websocket_client_config::get_api_key(),
+            websocket_client_config::get_api_secret(),
+            file_config::get_origin_path()
+            );
     });
 
     let ws_merged = thread::spawn(move || {
-        websocket_client(Stream::Merged, websocket_client_config::get_merged_url(), file_config::get_merged_path());
+        websocket_client(
+            Stream::Merged,
+            websocket_client_config::get_merged_url(),
+            websocket_client_config::get_api_key(),
+            websocket_client_config::get_api_secret(),
+            file_config::get_merged_path()
+            );
     });
 
     let _ = server.join();
@@ -79,6 +91,8 @@ mod websocket_client_config {
 
     const ORIGIN_URL_ENV_KEY: &str = "ORIGIN_URL";
     const MERGED_URL_ENV_KEY: &str = "MERGED_URL";
+    const API_KEY_ENV_KEY: &str = "API_KEY";
+    const API_SECRET_ENV_KEY: &str = "API_SECRET";
 
     pub fn get_origin_url() -> String {
         config::get_env(ORIGIN_URL_ENV_KEY)
@@ -86,5 +100,13 @@ mod websocket_client_config {
 
     pub fn get_merged_url() -> String {
         config::get_env(MERGED_URL_ENV_KEY)
+    }
+
+    pub fn get_api_key() -> String {
+        config::get_env(API_KEY_ENV_KEY)
+    }
+
+    pub fn get_api_secret() -> String {
+        config::get_env(API_SECRET_ENV_KEY)
     }
 }

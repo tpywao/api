@@ -17,5 +17,3 @@ url = "1.5"
 
 hmac = "0.5"
 sha2 = "0.7"
-
-lazy_static = "*"
