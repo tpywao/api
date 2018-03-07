@@ -21,4 +21,19 @@ pub struct Depth {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+pub struct Origin {
+    pub origin: String,
+    pub snapshot: Depth,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct OriginArray(pub Vec<Origin>);
+
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Merged(pub Depth);
+
+#[derive(Copy, Clone)]
+pub enum Stream {
+    Origin,
+    Merged,
+}
