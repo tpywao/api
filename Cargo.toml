@@ -12,8 +12,9 @@ serde = "*"
 serde_json = "*"
 serde_derive = "*"
 
-ws = "*"
+ws = {version="*", features=["ssl"]}
 url = "1.5"
+openssl = "0.9.24"
 
 hmac = "0.5"
 sha2 = "0.7"

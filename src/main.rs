@@ -1,6 +1,7 @@
 extern crate iron;
 extern crate ws;
 extern crate url;
+extern crate openssl;
 extern crate sha2;
 extern crate hmac;
 extern crate serde;
@@ -34,6 +35,9 @@ fn main() {
             websocket_client_config::get_origin_url(),
             websocket_client_config::get_api_key(),
             websocket_client_config::get_api_secret(),
+            websocket_client_config::get_ca_cert_path(),
+            websocket_client_config::get_client_cert_path(),
+            websocket_client_config::get_private_key_path(),
             file_config::get_origin_path()
             );
     });
@@ -44,6 +48,9 @@ fn main() {
             websocket_client_config::get_merged_url(),
             websocket_client_config::get_api_key(),
             websocket_client_config::get_api_secret(),
+            websocket_client_config::get_ca_cert_path(),
+            websocket_client_config::get_client_cert_path(),
+            websocket_client_config::get_private_key_path(),
             file_config::get_merged_path()
             );
     });
@@ -87,26 +94,41 @@ mod http_server_config {
 }
 
 mod websocket_client_config {
-    use config;
+    use config::get_env;
 
     const ORIGIN_URL_ENV_KEY: &str = "ORIGIN_URL";
     const MERGED_URL_ENV_KEY: &str = "MERGED_URL";
     const API_KEY_ENV_KEY: &str = "API_KEY";
     const API_SECRET_ENV_KEY: &str = "API_SECRET";
+    const CA_CERT_PATH_ENV_KEY: &str = "CA_CERT_PATH";
+    const CLIENT_CERT_PATH_ENV_KEY: &str = "CLIENT_CERT_PATH";
+    const PRIVATE_KEY_PATH_ENV_KEY: &str = "PRIVATE_KEY_PATH";
 
     pub fn get_origin_url() -> String {
-        config::get_env(ORIGIN_URL_ENV_KEY)
+        get_env(ORIGIN_URL_ENV_KEY)
     }
 
     pub fn get_merged_url() -> String {
-        config::get_env(MERGED_URL_ENV_KEY)
+        get_env(MERGED_URL_ENV_KEY)
     }
 
     pub fn get_api_key() -> String {
-        config::get_env(API_KEY_ENV_KEY)
+        get_env(API_KEY_ENV_KEY)
     }
 
     pub fn get_api_secret() -> String {
-        config::get_env(API_SECRET_ENV_KEY)
+        get_env(API_SECRET_ENV_KEY)
+    }
+
+    pub fn get_ca_cert_path() -> String {
+        get_env(CA_CERT_PATH_ENV_KEY)
+    }
+
+    pub fn get_client_cert_path() -> String {
+        get_env(CLIENT_CERT_PATH_ENV_KEY)
+    }
+
+    pub fn get_private_key_path() -> String {
+        get_env(PRIVATE_KEY_PATH_ENV_KEY)
     }
 }

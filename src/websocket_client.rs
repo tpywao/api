@@ -5,7 +5,10 @@ use ws::{
     Result,
     Request
 };
+use ws::util::TcpStream;
 use url::Url;
+use openssl::ssl::{SslConnectorBuilder, SslMethod, SslStream};
+use openssl::x509;
 
 use super::file_io::write_file;
 use super::auth::generate_x_signature;
@@ -20,6 +23,9 @@ struct Client {
     api_key: String,
     api_secret: String,
     file_path: String,
+    ca_path: String,
+    cert_path: String,
+    key_path: String,
 }
 impl Handler for Client {
     fn on_message(&mut self, msg: Message) -> Result<()> {
@@ -37,6 +43,15 @@ impl Handler for Client {
             }
         }
         Ok(())
+    }
+
+    fn upgrade_ssl_client(&mut self, sock: TcpStream, url: &Url) -> Result<SslStream<TcpStream>> {
+        let mut builder = SslConnectorBuilder::new(SslMethod::tls()).unwrap();
+        builder.set_ca_file(&self.ca_path).unwrap();
+        builder.set_certificate_file(&self.cert_path, x509::X509_FILETYPE_PEM).unwrap();
+        builder.set_private_key_file(&self.key_path, x509::X509_FILETYPE_PEM).unwrap();
+        let connector = builder.build();
+        connector.connect(url.domain().unwrap(), sock).map_err(From::from)
     }
 
     fn build_request(&mut self, url: &Url) -> Result<Request> {
@@ -59,13 +74,19 @@ impl Handler for Client {
 }
 
 pub fn websocket_client(
-    stream: Stream, url: String, api_key: String, api_secret: String, file_path: String) {
+    stream: Stream, url: String,
+    api_key: String, api_secret: String,
+    file_path: String,
+    ca_path: String, cert_path: String, key_path: String) {
     connect(url, |_| {
         Client {
             stream,
             api_key: api_key.to_owned(),
             api_secret: api_secret.to_owned(),
             file_path: file_path.to_owned(),
+            ca_path: ca_path.to_owned(),
+            cert_path: cert_path.to_owned(),
+            key_path: key_path.to_owned(),
         }
     }).unwrap();
 }
