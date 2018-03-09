@@ -21,7 +21,11 @@ use json::Stream;
 
 fn main() {
     let server = thread::spawn(move || {
-        http_server(http_server_config::get_netloc(), file_config::get_origin_path(), file_config::get_merged_path());
+        http_server(
+            http_server_config::get_netloc(),
+            file_config::get_origin_path(),
+            file_config::get_merged_path()
+            );
     });
 
     let ws_origin = thread::spawn(move || {
