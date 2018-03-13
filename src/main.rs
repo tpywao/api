@@ -20,7 +20,6 @@ use http_server::http_server;
 use websocket_client::websocket_client;
 
 use std::thread;
-use json::Stream;
 use memory_cache::{OriginCache, MergedCache, Cache};
 
 fn main() {
@@ -39,7 +38,6 @@ fn main() {
 
     let ws_origin = thread::spawn(move || {
         websocket_client(
-            Stream::Origin,
             websocket_client_config::get_origin_url(),
             websocket_client_config::get_api_key(),
             websocket_client_config::get_api_secret(),
@@ -52,7 +50,6 @@ fn main() {
 
     let ws_merged = thread::spawn(move || {
         websocket_client(
-            Stream::Merged,
             websocket_client_config::get_merged_url(),
             websocket_client_config::get_api_key(),
             websocket_client_config::get_api_secret(),

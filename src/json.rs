@@ -31,9 +31,3 @@ pub struct OriginArray(pub Vec<Origin>);
 
 #[derive(Debug, Serialize, Deserialize, Default)]
 pub struct Merged(pub Depth);
-
-#[derive(Copy, Clone)]
-pub enum Stream {
-    Origin,
-    Merged,
-}
