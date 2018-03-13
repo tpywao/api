@@ -31,13 +31,13 @@ impl Handler for Client {
     fn on_message(&mut self, msg: Message) -> Result<()> {
         let text = &msg.as_text()?;
         match self.stream {
-            Stream::Merged => {
-                if let Ok(Merged(json)) = from_str(text) {
+            Stream::Origin => {
+                if let Ok(OriginArray(json)) = from_str(text) {
                     write_file(&self.file_path, &to_string(&json).unwrap())?;
                 }
             }
-            Stream::Origin => {
-                if let Ok(OriginArray(json)) = from_str(text) {
+            Stream::Merged => {
+                if let Ok(Merged(json)) = from_str(text) {
                     write_file(&self.file_path, &to_string(&json).unwrap())?;
                 }
             }

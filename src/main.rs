@@ -35,10 +35,10 @@ fn main() {
             websocket_client_config::get_origin_url(),
             websocket_client_config::get_api_key(),
             websocket_client_config::get_api_secret(),
+            file_config::get_origin_path(),
             websocket_client_config::get_ca_cert_path(),
             websocket_client_config::get_client_cert_path(),
-            websocket_client_config::get_private_key_path(),
-            file_config::get_origin_path()
+            websocket_client_config::get_private_key_path()
             );
     });
 
@@ -48,10 +48,10 @@ fn main() {
             websocket_client_config::get_merged_url(),
             websocket_client_config::get_api_key(),
             websocket_client_config::get_api_secret(),
+            file_config::get_merged_path(),
             websocket_client_config::get_ca_cert_path(),
             websocket_client_config::get_client_cert_path(),
-            websocket_client_config::get_private_key_path(),
-            file_config::get_merged_path()
+            websocket_client_config::get_private_key_path()
             );
     });
 
