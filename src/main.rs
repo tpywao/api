@@ -10,22 +10,30 @@ extern crate serde_json;
 
 mod http_server;
 mod websocket_client;
+#[allow(dead_code)]
 mod file_io;
 mod auth;
 mod json;
+mod memory_cache;
 
 use http_server::http_server;
 use websocket_client::websocket_client;
 
 use std::thread;
 use json::Stream;
+use memory_cache::{OriginCache, MergedCache, Cache};
 
 fn main() {
+    let origin_cache = OriginCache::default();
+    let merged_cache = MergedCache::default();
+    let ws_origin_cache = Cache::Origin(origin_cache.clone());
+    let ws_merged_cache = Cache::Merged(merged_cache.clone());
+
     let server = thread::spawn(move || {
         http_server(
             http_server_config::get_netloc(),
-            file_config::get_origin_path(),
-            file_config::get_merged_path()
+            origin_cache.clone(),
+            merged_cache.clone(),
             );
     });
 
@@ -35,7 +43,7 @@ fn main() {
             websocket_client_config::get_origin_url(),
             websocket_client_config::get_api_key(),
             websocket_client_config::get_api_secret(),
-            file_config::get_origin_path(),
+            ws_origin_cache,
             websocket_client_config::get_ca_cert_path(),
             websocket_client_config::get_client_cert_path(),
             websocket_client_config::get_private_key_path()
@@ -48,7 +56,7 @@ fn main() {
             websocket_client_config::get_merged_url(),
             websocket_client_config::get_api_key(),
             websocket_client_config::get_api_secret(),
-            file_config::get_merged_path(),
+            ws_merged_cache,
             websocket_client_config::get_ca_cert_path(),
             websocket_client_config::get_client_cert_path(),
             websocket_client_config::get_private_key_path()
@@ -68,6 +76,7 @@ mod config {
     }
 }
 
+#[allow(dead_code)]
 mod file_config {
     use config::get_env;
 

@@ -7,9 +7,8 @@ use iron::mime::Mime;
 use iron::mime::TopLevel::Application;
 use iron::mime::SubLevel::Json;
 
-use super::file_io::read_file;
-use super::json::{to_string, from_str};
-use super::json::{OriginArray, Merged};
+use super::json::to_string;
+use super::memory_cache::{OriginCache, MergedCache};
 
 struct Router {
     routes: HashMap<String, Box<Handler>>,
@@ -38,17 +37,7 @@ fn content_type_json() -> Mime {
     Mime(Application, Json, vec![])
 }
 
-fn get_origin(file_path: &str) -> OriginArray {
-    let data = read_file(&file_path).unwrap();
-    from_str(&data).unwrap()
-}
-
-fn get_merged(file_path: &str) -> Merged {
-    let data = read_file(&file_path).unwrap();
-    from_str(&data).unwrap()
-}
-
-pub fn http_server(url: String, origin_file_path: String, merged_file_path: String) {
+pub fn http_server(url: String, origin_cache: OriginCache, merged_cache: MergedCache) {
     let mut router = Router::new();
 
     router.add_route("", |_: &mut Request| {
@@ -56,20 +45,20 @@ pub fn http_server(url: String, origin_file_path: String, merged_file_path: Stri
     });
 
     router.add_route("origin", move |_: &mut Request| {
-        let OriginArray(json) = get_origin(&origin_file_path);
+        let json = &*origin_cache.lock().unwrap();
         Ok(Response::with((
             content_type_json(),
             status::Ok,
-            to_string(&json).unwrap()
+            to_string(json).unwrap()
         )))
     });
 
     router.add_route("merged", move |_: &mut Request| {
-        let Merged(json) = get_merged(&merged_file_path);
+        let json = &*merged_cache.lock().unwrap();
         Ok(Response::with((
             content_type_json(),
             status::Ok,
-            to_string(&json).unwrap()
+            to_string(json).unwrap()
         )))
     });
 
