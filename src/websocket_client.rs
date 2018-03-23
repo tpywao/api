@@ -48,18 +48,14 @@ impl Handler for Client {
     }
 
     fn build_request(&mut self, url: &Url) -> Result<Request> {
-        let mut req = Request::from_url(&url)?;
-        let mut url = url.clone();
-        url.set_port(None).unwrap();
-        let data = url.as_str().trim_left_matches("ws://");
-        let x_signature = generate_x_signature(&self.api_secret, data);
+        let mut req = Request::from_url(url)?;
         let x_nonce = 18;
-        let x_signature = x_signature + &format!("{:x}", x_nonce);
+        let x_signature = generate_x_signature(&self.api_secret, url, x_nonce);
         {
-            let headers = (&mut req).headers_mut();
-            &headers.push(("X-Access-Id".to_owned(), self.api_key.as_bytes().to_vec()));
-            &headers.push(("X-Nonce".to_owned(), x_nonce.to_string().as_bytes().to_vec()));
-            &headers.push(("X-Signature".to_owned(), x_signature.as_bytes().to_vec()));
+            let ref mut headers = req.headers_mut();
+            headers.push(("X-Access-Id".to_owned(), self.api_key.as_bytes().to_vec()));
+            headers.push(("X-Nonce".to_owned(), x_nonce.to_string().as_bytes().to_vec()));
+            headers.push(("X-Signature".to_owned(), x_signature.as_bytes().to_vec()));
         }
 
         Ok(req)
