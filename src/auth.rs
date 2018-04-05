@@ -19,3 +19,25 @@ pub fn generate_x_signature(key: &str, url: &Url, x_nonce: u64) -> String {
     hmac.input(to_sig.as_bytes());
     hmac.result().code().to_hex()
 }
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_generate_x_signature() {
+        let api_secret = "API Secret";
+        let url = Url::parse(
+                    "wss://localhost:443/?stream=origin"
+                    ).unwrap();
+        let x_nonce = 100;
+        assert_eq!(
+            "cae76c11e37b8301174b34a6a99cc87b80aa4430a635d6e20b78158a87dd2732",
+            generate_x_signature(
+                api_secret,
+                &url,
+                x_nonce
+                ));
+    }
+}
