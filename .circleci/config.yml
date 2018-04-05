@@ -1,0 +1,30 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: orangesys/rust-circleci:v1.24.0
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-{{ .Branch }}-{{ checksum "Cargo.toml" }}
+            - v1-{{ .Branch }}
+      - run:
+          name: Stable Build
+          command: |
+            rustup run stable rustc --version --verbose
+            rustup run stable cargo --version --verbose
+            rustup run stable cargo test
+            rustup run stable cargo build
+
+      - save_cache:
+          key: v1-{{ .Branch }}-{{ checksum "Cargo.toml" }}
+          paths:
+            - "~/.cargo"
+            - "./target"
+
+workflow:
+  version: 2
+  jobs:
+    - build
