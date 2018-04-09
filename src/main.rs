@@ -43,8 +43,7 @@ fn main() {
             websocket_client_config::get_api_secret(),
             ws_origin_cache,
             websocket_client_config::get_ca_cert_path(),
-            websocket_client_config::get_client_cert_path(),
-            websocket_client_config::get_private_key_path()
+            websocket_client_config::get_cert_path(),
             );
     });
 
@@ -55,8 +54,7 @@ fn main() {
             websocket_client_config::get_api_secret(),
             ws_merged_cache,
             websocket_client_config::get_ca_cert_path(),
-            websocket_client_config::get_client_cert_path(),
-            websocket_client_config::get_private_key_path()
+            websocket_client_config::get_cert_path(),
             );
     });
 
@@ -107,8 +105,7 @@ mod websocket_client_config {
     const API_KEY_ENV_KEY: &str = "API_KEY";
     const API_SECRET_ENV_KEY: &str = "API_SECRET";
     const CA_CERT_PATH_ENV_KEY: &str = "CA_CERT_PATH";
-    const CLIENT_CERT_PATH_ENV_KEY: &str = "CLIENT_CERT_PATH";
-    const PRIVATE_KEY_PATH_ENV_KEY: &str = "PRIVATE_KEY_PATH";
+    const CERT_PATH_ENV_KEY: &str = "CERT_PATH";
 
     pub fn get_origin_url() -> String {
         get_env(ORIGIN_URL_ENV_KEY)
@@ -130,11 +127,7 @@ mod websocket_client_config {
         get_env(CA_CERT_PATH_ENV_KEY)
     }
 
-    pub fn get_client_cert_path() -> String {
-        get_env(CLIENT_CERT_PATH_ENV_KEY)
-    }
-
-    pub fn get_private_key_path() -> String {
-        get_env(PRIVATE_KEY_PATH_ENV_KEY)
+    pub fn get_cert_path() -> String {
+        get_env(CERT_PATH_ENV_KEY)
     }
 }

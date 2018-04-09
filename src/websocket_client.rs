@@ -20,7 +20,6 @@ struct Client {
     cache: Cache,
     ca_path: String,
     cert_path: String,
-    key_path: String,
 }
 impl Handler for Client {
     fn on_message(&mut self, msg: Message) -> Result<()> {
@@ -42,7 +41,6 @@ impl Handler for Client {
         let mut builder = SslConnectorBuilder::new(SslMethod::tls()).unwrap();
         builder.set_ca_file(&self.ca_path).unwrap();
         builder.set_certificate_file(&self.cert_path, x509::X509_FILETYPE_PEM).unwrap();
-        builder.set_private_key_file(&self.key_path, x509::X509_FILETYPE_PEM).unwrap();
         let connector = builder.build();
         connector.connect(url.domain().unwrap(), sock).map_err(From::from)
     }
@@ -66,7 +64,7 @@ pub fn websocket_client(
     url: String,
     api_key: String, api_secret: String,
     cache: Cache,
-    ca_path: String, cert_path: String, key_path: String) {
+    ca_path: String, cert_path: String) {
     connect(url, |_| {
         Client {
             api_key: api_key.to_owned(),
@@ -74,7 +72,6 @@ pub fn websocket_client(
             cache: cache.to_owned(),
             ca_path: ca_path.to_owned(),
             cert_path: cert_path.to_owned(),
-            key_path: key_path.to_owned(),
         }
     }).unwrap();
 }
