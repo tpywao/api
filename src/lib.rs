@@ -10,8 +10,6 @@ extern crate serde_json;
 
 pub mod http_server;
 pub mod websocket_client;
-#[allow(dead_code)]
-mod file_io;
 pub mod auth;
 pub mod json;
 pub mod memory_cache;

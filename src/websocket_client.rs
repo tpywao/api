@@ -10,8 +10,8 @@ use url::Url;
 use openssl::ssl::{SslConnectorBuilder, SslMethod, SslStream};
 use openssl::x509;
 
-use super::auth::generate_x_signature;
-use super::json::from_str;
+use auth::generate_x_signature;
+use json::from_str;
 use memory_cache::Cache;
 
 struct Client {

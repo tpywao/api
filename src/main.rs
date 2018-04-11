@@ -1,26 +1,10 @@
-extern crate iron;
-extern crate ws;
-extern crate url;
-extern crate openssl;
-extern crate rustc_serialize;
-extern crate crypto;
-extern crate serde;
-extern crate serde_json;
-#[macro_use] extern crate serde_derive;
-
-mod http_server;
-mod websocket_client;
-#[allow(dead_code)]
-mod file_io;
-mod auth;
-mod json;
-mod memory_cache;
-
-use http_server::http_server;
-use websocket_client::websocket_client;
+extern crate api;
 
 use std::thread;
-use memory_cache::{OriginCache, MergedCache, Cache};
+
+use api::http_server::http_server;
+use api::websocket_client::websocket_client;
+use api::memory_cache::{OriginCache, MergedCache, Cache};
 
 fn main() {
     let origin_cache = OriginCache::default();

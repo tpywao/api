@@ -7,8 +7,8 @@ use iron::mime::Mime;
 use iron::mime::TopLevel::Application;
 use iron::mime::SubLevel::Json;
 
-use super::json::to_string;
-use super::memory_cache::{OriginCache, MergedCache};
+use json::to_string;
+use memory_cache::{OriginCache, MergedCache};
 
 struct Router {
     routes: HashMap<String, Box<Handler>>,
