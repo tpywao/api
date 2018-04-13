@@ -1,10 +1,12 @@
-use std::fs::OpenOptions;
-use std::io::{
-    BufWriter,
-    Write,
-    BufReader,
-    Read,
-    Result
+use std::{
+    fs::OpenOptions,
+    io::{
+        BufWriter,
+        Write,
+        BufReader,
+        Read,
+        Result,
+    },
 };
 
 pub fn read_file(fname: &str) -> Result<String> {

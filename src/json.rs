@@ -1,5 +1,11 @@
-use serde_json::{Value, Map};
-pub use serde_json::{from_str, to_string};
+use serde_json::{
+    Value,
+    Map,
+};
+pub use serde_json::{
+    from_str,
+    to_string,
+};
 
 #[derive(Debug, Serialize, Deserialize, Default)]
 pub struct Bids {

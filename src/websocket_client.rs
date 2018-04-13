@@ -1,14 +1,20 @@
-use ws::connect;
 use ws::{
+    connect,
     Handler,
     Message,
     Result,
-    Request
+    Request,
+    util::TcpStream,
 };
-use ws::util::TcpStream;
 use url::Url;
-use openssl::ssl::{SslConnectorBuilder, SslMethod, SslStream};
-use openssl::x509;
+use openssl::{
+    ssl::{
+        SslConnectorBuilder,
+        SslMethod,
+        SslStream,
+    },
+    x509,
+};
 
 use auth::generate_x_signature;
 use json::from_str;

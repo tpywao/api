@@ -2,9 +2,15 @@ extern crate api;
 
 use std::thread;
 
-use api::http_server::http_server;
-use api::websocket_client::websocket_client;
-use api::memory_cache::{OriginCache, MergedCache, Cache};
+use api::{
+    http_server::http_server,
+    websocket_client::websocket_client,
+    memory_cache::{
+        OriginCache,
+        MergedCache,
+        Cache,
+    },
+};
 
 fn main() {
     let origin_cache = OriginCache::default();

@@ -1,7 +1,10 @@
 use rustc_serialize::hex::ToHex;
-use crypto::digest::Digest;
-use crypto::mac::Mac;
-use crypto::{hmac, sha2};
+use crypto::{
+    digest::Digest,
+    mac::Mac,
+    hmac,
+    sha2,
+};
 use url::Url;
 
 pub fn generate_x_signature(key: &str, url: &Url, x_nonce: u64) -> String {

@@ -1,14 +1,21 @@
 use std::collections::HashMap;
 
-use iron::prelude::*;
-use iron::Handler;
-use iron::status;
-use iron::mime::Mime;
-use iron::mime::TopLevel::Application;
-use iron::mime::SubLevel::Json;
+use iron::{
+    prelude::*,
+    Handler,
+    status,
+    mime::{
+        Mime,
+        TopLevel::Application,
+        SubLevel::Json,
+    },
+};
 
 use json::to_string;
-use memory_cache::{OriginCache, MergedCache};
+use memory_cache::{
+    OriginCache,
+    MergedCache,
+};
 
 struct Router {
     routes: HashMap<String, Box<Handler>>,

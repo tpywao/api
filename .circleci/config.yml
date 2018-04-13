@@ -3,7 +3,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: orangesys/rust-circleci:v1.24.0
+      - image: orangesys/rust-circleci:v1.25.0
     steps:
       - checkout
       - restore_cache:
